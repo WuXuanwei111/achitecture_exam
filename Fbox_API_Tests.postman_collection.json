@@ -1,0 +1,82 @@
+{
+  "info": {
+    "name": "Fbox API Tests",
+    "description": "测试Fbox传感器数据接口",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. 获取Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/fbox/token",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "fbox", "token"]
+        },
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "scope",
+              "value": "fbox"
+            },
+            {
+              "key": "client_id",
+              "value": "68db2e8bda8d47b5b5db7eaf71c7dcdd"
+            },
+            {
+              "key": "client_secret",
+              "value": "76dc724c95004acab25482d344dab407"
+            },
+            {
+              "key": "grant_type",
+              "value": "client_credentials"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "2. 获取传感器数据",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/fbox/sensor/data?boxNo=300023040085",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "fbox", "sensor", "data"],
+          "query": [
+            {
+              "key": "boxNo",
+              "value": "300023040085"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"ids\":[\"327061375295689611\",\"327061375295689612\",\"327061375295689614\",\"327061375295689606\",\"327061375295689610\"]}"
+        }
+      }
+    }
+  ]
+} 

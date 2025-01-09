@@ -7,20 +7,26 @@
 #### 安装教程
 
 1.  打开IDEA
-2.  File->New->Project From Version Control
-3.  在弹出的界面中，输入仓库的 https://gitee.com/xie-cheng-git/achitecture.git ，点击clone
-4.  点击Trust Project
-5.  等待Maven自动下载依赖
-6.  确认下载完成后，右键pom.xml 执行Reload Project
-7.  使用前，请先到resources -> application.properties文件中配置你自己的数据库地址、用户名、密码
-7.  点击运行，localhost:8080/doc.html能打开接口调试界面
+2.  点击运行ArchitectureClassApplication.java
 
 #### 使用说明
+1. 系统架构:
+- 使用 Spring Boot + JPA
+- 支持多种传感器数据采集
+- 包含设备管理、大棚管理、数据采集等功能
 
-1.  common包里有每层的基础类
-2.  请在achitectureclass包里撰写类
+2. 主要功能模块:
+- 设备管理 (Device)
+- 大棚管理 (Greenhouse)
+- 传感器数据采集 (SensorData)
+- 摄像头图像抓取 (DeviceCapture)
 
+3. 关键服务:
+- FboxService: 处理Fbox平台的传感器数据采集
+- YsService: 处理萤石云摄像头的登录和图像抓取
+- DeviceService: 设备与大棚绑定/解绑
 
-
-
-
+常用接口:
+- `/api/fbox/sensor/data`: 获取传感器数据
+- `/api/ys/capture`: 摄像头抓图
+- `/api/fbox/token`: 获取平台Token

@@ -1,0 +1,192 @@
+{
+  "info": {
+    "name": "YingShiCloud API Tests",
+    "description": "萤石云API接口测试集合",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. 获取萤石云Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/ys/token",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "ys", "token"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"accountId\": \"1ca7f0ab24ba41b291346347ec30140e\"}"
+        },
+        "description": "调用本地后端接口获取萤石云token"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response structure is correct\", function () {",
+              "    const responseData = pm.response.json();",
+              "    pm.expect(responseData).to.have.property('code');",
+              "    pm.expect(responseData).to.have.property('message');",
+              "    pm.expect(responseData).to.have.property('data');",
+              "});",
+              "",
+              "pm.test(\"Token is received successfully\", function () {",
+              "    const responseData = pm.response.json();",
+              "    pm.expect(responseData.code).to.equal(200);",
+              "    const token = responseData.data.data.accessToken;",
+              "    pm.expect(token).to.be.a('string');",
+              "    pm.environment.set(\"ys_token\", token);",
+              "    console.log('Token saved:', token);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. 抓拍摄像头照片",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/ys/capture",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "ys", "capture"]
+        },
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "accessToken",
+              "value": "{{ys_token}}"
+            },
+            {
+              "key": "deviceSerial",
+              "value": "AB9831171"
+            },
+            {
+              "key": "channelNo",
+              "value": "1"
+            },
+            {
+              "key": "quality",
+              "value": "1"
+            }
+          ]
+        },
+        "description": "调用本地后端接口进行摄像头抓拍"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response structure is correct\", function () {",
+              "    const responseData = pm.response.json().data;",
+              "    pm.expect(responseData).to.have.property('code');",
+              "    pm.expect(responseData).to.have.property('msg');",
+              "    pm.expect(responseData).to.have.property('data');",
+              "});",
+              "",
+              "pm.test(\"Capture is successful\", function () {",
+              "    const responseData = pm.response.json().data;",
+              "    pm.expect(responseData.code).to.equal('200');",
+              "    pm.expect(responseData.data.picUrl).to.be.a('string');",
+              "    console.log('Capture successful, image URL:', responseData.data.picUrl);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. 抓拍摄像头照片(无效设备)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/ys/capture",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "ys", "capture"]
+        },
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "accessToken",
+              "value": "{{ys_token}}"
+            },
+            {
+              "key": "deviceSerial",
+              "value": "invalid_serial"
+            },
+            {
+              "key": "channelNo",
+              "value": "1"
+            },
+            {
+              "key": "quality",
+              "value": "1"
+            }
+          ]
+        },
+        "description": "使用无效设备序列号测试错误处理"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Error response is correct\", function () {",
+              "    const responseData = pm.response.json().data;",
+              "    pm.expect(responseData.code).to.equal('20014');",
+              "    pm.expect(responseData.msg).to.equal('设备序列不正确');",
+              "    pm.expect(responseData.data).to.be.null;",
+              "    console.log('Expected error received:', responseData.msg);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+} 
