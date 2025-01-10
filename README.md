@@ -13,7 +13,7 @@
 1. 系统架构:
 - 使用 Spring Boot + JPA
 - 支持多种传感器数据采集
-- 包含设备管理、大棚管理、数据采集等功能
+- 包含设备管理、Greenhouse管理、数据采集等功能
 
 2. 主要功能模块:
 - 设备管理 (Device)
@@ -24,7 +24,7 @@
 3. 关键服务:
 - FboxService: 处理Fbox平台的传感器数据采集
 - YsService: 处理萤石云摄像头的登录和图像抓取
-- DeviceService: 设备与大棚绑定/解绑
+- DeviceService: 设备与Greenhouse绑定/解绑
 
 常用接口:
 - `/api/fbox/sensor/data`: 获取传感器数据
