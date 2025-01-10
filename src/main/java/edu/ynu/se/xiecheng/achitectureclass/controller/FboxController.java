@@ -17,7 +17,7 @@ import java.util.Map;
 @Api(tags = "Fbox接口")
 @RestController
 @RequestMapping("/api/fbox")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:5173") // 允许前端访问
 public class FboxController {
     private static final Logger logger = LoggerFactory.getLogger(FboxController.class);
 

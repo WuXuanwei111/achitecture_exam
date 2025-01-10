@@ -30,3 +30,11 @@
 - `/api/fbox/sensor/data`: 获取传感器数据
 - `/api/ys/capture`: 摄像头抓图
 - `/api/fbox/token`: 获取平台Token
+
+#### 前端展示
+- 登录
+![img.png](login.png)
+- 注册
+![img.png](Register.png)
+- 大屏
+![img.png](dashboard.png)
