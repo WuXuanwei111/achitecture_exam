@@ -17,7 +17,7 @@
 
 2. 主要功能模块:
 - 设备管理 (Device)
-- 大棚管理 (Greenhouse)
+- Greenhouse管理 (Greenhouse)
 - 传感器数据采集 (SensorData)
 - 摄像头图像抓取 (DeviceCapture)
 
